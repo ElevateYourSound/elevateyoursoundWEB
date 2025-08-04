@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELEVATE YOUR SOUND</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- LOADING SCREEN -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-logo">
+            <img src="LOGO 2025 PNG.png" alt="Elevate Your Sound" class="loading-logo-img">
+            <div class="loading-text">LOADING...</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
+                <li class="nav-item"><a href="#discord" class="nav-link">Discord</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <!-- Logo Section -->
+            <div class="hero-logo">
+                <img src="LOGO 2025 PNG.png" alt="Elevate Your Sound" class="main-logo">
+            </div>
+            
+            <!-- Central Video -->
+            <div class="hero-video-container">
+                <video autoplay muted loop class="hero-video">
+                    <source src="Creazione_Video_Musicale_Futuristico.mp4" type="video/mp4">
+                </video>
+            </div>
+            
+            <!-- Content Section -->
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="title-word">ELEVATE</span>
+                    <span class="title-word">YOUR</span>
+                    <span class="title-word highlight">SOUND</span>
+                </h1>
+                <p class="hero-subtitle">Professional Audio Production & Sound Design</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('services')">
+                        <i class="fas fa-crown"></i>
+                        View Plans
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.open('https://www.patreon.com/ElevateYourSoundOfficial/home?newFreeMembership=true', '_blank')">
+                        <i class="fab fa-patreon"></i>
+                        Join Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Studio Elements -->
+        <div class="studio-element element-1">MIX & MASTER</div>
+        <div class="studio-element element-2">SOUND DESIGN</div>
+        <div class="studio-element element-3">RECORDING</div>
+        <div class="studio-element element-4">PRODUCTION</div>
+        
+        <div class="scroll-indicator">
+            <div class="scroll-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="services">
+        <div class="services-container">
+            <h2 class="services-title">Choose Your Plan</h2>
+            <p class="services-subtitle">Join our community and elevate your sound production skills</p>
+            
+            <div class="plans-grid">
+                <!-- Silver Member -->
+                <div class="plan-card silver">
+                    <div class="plan-logo">
+                        <img src="LOGO 2025 PNG.png" alt="Silver Member" class="plan-logo-img">
+                    </div>
+                    <h3 class="plan-name">Silver Member</h3>
+                    <div class="plan-price">
+                        <span class="price-amount">23,99 €</span>
+                        <span class="price-period">/ mese (più IVA)</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-music"></i> Sample Pack con 400+ suoni</li>
+                        <li><i class="fas fa-video"></i> Accesso LIVE alle Masterclass e VOD</li>
+                        <li><i class="fas fa-discord"></i> Ruolo Discord: Silver Member</li>
+                    </ul>
+                    <a href="https://www.patreon.com/ElevateYourSoundOfficial/home?newFreeMembership=true" target="_blank" class="plan-btn">
+                        <i class="fab fa-patreon"></i>
+                        Subscribe on Patreon
+                    </a>
+                </div>
+
+                <!-- Gold Member -->
+                <div class="plan-card gold featured">
+                    <div class="featured-badge">RECOMMENDED</div>
+                    <div class="plan-logo">
+                        <img src="LOGO 2025 PNG.png" alt="Gold Member" class="plan-logo-img gold-logo">
+                    </div>
+                    <h3 class="plan-name">Gold Member</h3>
+                    <div class="plan-price">
+                        <span class="price-amount">99,99 €</span>
+                        <span class="price-period">/ mese (più IVA)</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-crown"></i> Tutto il pacchetto Silver +</li>
+                        <li><i class="fas fa-music"></i> Sample Pack da 1150+ suoni</li>
+                        <li><i class="fas fa-percent"></i> 10% di sconto su Mix & Master</li>
+                        <li><i class="fas fa-plug"></i> 95 Plugin & Instrument Presets</li>
+                        <li><i class="fas fa-archive"></i> Archivio Masterclass completo</li>
+                        <li><i class="fas fa-tools"></i> 2 Estratti Mixing Technique al mese</li>
+                        <li><i class="fas fa-discord"></i> Ruolo Discord: Gold Member</li>
+                    </ul>
+                    <a href="https://www.patreon.com/ElevateYourSoundOfficial/home?newFreeMembership=true" target="_blank" class="plan-btn gold-btn">
+                        <i class="fab fa-patreon"></i>
+                        Subscribe on Patreon
+                    </a>
+                </div>
+
+                <!-- Opal Member -->
+                <div class="plan-card opal">
+                    <div class="plan-logo">
+                        <img src="LOGO 2025 PNG.png" alt="Opal Member" class="plan-logo-img opal-logo">
+                    </div>
+                    <h3 class="plan-name">Opal Member</h3>
+                    <div class="plan-price">
+                        <span class="price-amount">299,99 €</span>
+                        <span class="price-period">/ mese (più IVA)</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-gem"></i> Tutto il pacchetto Gold +</li>
+                        <li><i class="fas fa-music"></i> Sample Pack da 4000+ suoni</li>
+                        <li><i class="fas fa-trophy"></i> 1 Plugin originale in anteprima mondiale</li>
+                        <li><i class="fas fa-percentage"></i> 25% di sconto su Mix & Master</li>
+                        <li><i class="fas fa-archive"></i> 500 Preset di Instrument Presets</li>
+                        <li><i class="fas fa-user-graduate"></i> Dispensa teorica</li>
+                        <li><i class="fas fa-tools"></i> Archivio Mixing</li>
+                        <li><i class="fas fa-clock"></i> 2 Ore di consulenza esclusiva</li>
+                        <li><i class="fas fa-discord"></i> Ruolo Discord: Opal Member</li>
+                    </ul>
+                    <a href="https://www.patreon.com/ElevateYourSoundOfficial/home?newFreeMembership=true" target="_blank" class="plan-btn opal-btn">
+                        <i class="fab fa-patreon"></i>
+                        Subscribe on Patreon
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DISCORD SECTION -->
+    <section id="discord" class="discord">
+        <div class="discord-container">
+            <div class="discord-content">
+                <div class="discord-logo">
+                    <img src="LOGO 2025 PNG.png" alt="Elevate Your Sound Discord" class="discord-logo-img">
+                </div>
+                <h2 class="discord-title">Join Our Community</h2>
+                <p class="discord-subtitle">Connect with fellow producers, share your music, and get exclusive content on our Discord server</p>
+                
+                <div class="discord-features">
+                    <div class="discord-feature">
+                        <i class="fas fa-users"></i>
+                        <h3>Active Community</h3>
+                        <p>Meet other music producers and creators</p>
+                    </div>
+                    <div class="discord-feature">
+                        <i class="fas fa-music"></i>
+                        <h3>Share Your Music</h3>
+                        <p>Get feedback on your tracks and beats</p>
+                    </div>
+                    <div class="discord-feature">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Exclusive Content</h3>
+                        <p>Access member-only tutorials and resources</p>
+                    </div>
+                    <div class="discord-feature">
+                        <i class="fas fa-headphones"></i>
+                        <h3>Live Sessions</h3>
+                        <p>Join live production sessions and Q&A</p>
+                    </div>
+                </div>
+                
+                <a href="https://www.discord.gg/elevateyoursound" target="_blank" class="discord-btn">
+                    <i class="fab fa-discord"></i>
+                    Join Discord Server
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
