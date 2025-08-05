@@ -210,6 +210,88 @@
         </div>
     </section>
 
+    <!-- COOKIE CONSENT BANNER -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-content">
+            <div class="cookie-icon">
+                <i class="fas fa-cookie-bite"></i>
+            </div>
+            <div class="cookie-text">
+                <h3 class="cookie-title">Cookie Policy</h3>
+                <p class="cookie-description">
+                    Utilizziamo i cookie per migliorare la tua esperienza sul nostro sito web. 
+                    I cookie ci aiutano a personalizzare i contenuti e a fornire funzionalità dei social media.
+                </p>
+            </div>
+            <div class="cookie-actions">
+                <button class="cookie-btn cookie-accept" id="acceptCookies">
+                    <i class="fas fa-check"></i>
+                    Accetta tutti
+                </button>
+                <button class="cookie-btn cookie-decline" id="declineCookies">
+                    <i class="fas fa-times"></i>
+                    Rifiuta
+                </button>
+                <button class="cookie-btn cookie-settings" id="cookieSettings">
+                    <i class="fas fa-cog"></i>
+                    Personalizza
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- COOKIE SETTINGS MODAL -->
+    <div class="cookie-modal" id="cookieModal">
+        <div class="cookie-modal-content">
+            <div class="cookie-modal-header">
+                <h2>Impostazioni Cookie</h2>
+                <button class="cookie-modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cookie-modal-body">
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <h3>Cookie Essenziali</h3>
+                        <label class="cookie-toggle">
+                            <input type="checkbox" checked disabled>
+                            <span class="cookie-slider essential"></span>
+                        </label>
+                    </div>
+                    <p>Questi cookie sono necessari per il funzionamento del sito web e non possono essere disabilitati.</p>
+                </div>
+                
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <h3>Cookie di Performance</h3>
+                        <label class="cookie-toggle">
+                            <input type="checkbox" id="performanceCookies">
+                            <span class="cookie-slider"></span>
+                        </label>
+                    </div>
+                    <p>Questi cookie ci aiutano a capire come i visitatori interagiscono con il sito web raccogliendo e riportando informazioni anonimamente.</p>
+                </div>
+                
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <h3>Cookie di Marketing</h3>
+                        <label class="cookie-toggle">
+                            <input type="checkbox" id="marketingCookies">
+                            <span class="cookie-slider"></span>
+                        </label>
+                    </div>
+                    <p>Questi cookie vengono utilizzati per fornire ai visitatori annunci pubblicitari personalizzati in base alle pagine visitate in precedenza.</p>
+                </div>
+            </div>
+            <div class="cookie-modal-footer">
+                <button class="cookie-btn cookie-save" id="saveCookieSettings">
+                    <i class="fas fa-save"></i>
+                    Salva Preferenze
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
