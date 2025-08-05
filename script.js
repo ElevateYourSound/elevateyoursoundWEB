@@ -137,35 +137,54 @@ function scrollToSection(sectionId) {
   }
 }
 
-// Loading screen
+// Loading screen con fallback
 window.addEventListener('load', () => {
   const loadingScreen = document.getElementById('loadingScreen');
-  setTimeout(() => {
+  if (loadingScreen) {
+    setTimeout(() => {
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+        
+        // Trigger hero animations after loading screen disappears
+        setTimeout(() => {
+          const heroLogo = document.querySelector('.hero-logo');
+          const heroVideoContainer = document.querySelector('.hero-video-container');
+          const heroContent = document.querySelector('.hero-content');
+          
+          if (heroLogo) {
+            heroLogo.classList.add('loaded');
+          }
+          
+          setTimeout(() => {
+            if (heroVideoContainer) {
+              heroVideoContainer.classList.add('loaded');
+            }
+          }, 200);
+          
+          setTimeout(() => {
+            if (heroContent) {
+              heroContent.classList.add('loaded');
+            }
+          }, 600);
+          
+        }, 100);
+        
+      }, 500);
+    }, 1500); // Ridotto da 3s a 1.5s
+  }
+});
+
+// Fallback per assicurarsi che il loading si nasconda sempre
+setTimeout(() => {
+  const loadingScreen = document.getElementById('loadingScreen');
+  if (loadingScreen && loadingScreen.style.display !== 'none') {
     loadingScreen.style.opacity = '0';
     setTimeout(() => {
       loadingScreen.style.display = 'none';
-      
-      // Trigger hero animations after loading screen disappears
-      setTimeout(() => {
-        const heroLogo = document.querySelector('.hero-logo');
-        const heroVideoContainer = document.querySelector('.hero-video-container');
-        const heroContent = document.querySelector('.hero-content');
-        
-        if (heroLogo) heroLogo.classList.add('loaded');
-        
-        setTimeout(() => {
-          if (heroVideoContainer) heroVideoContainer.classList.add('loaded');
-        }, 200);
-        
-        setTimeout(() => {
-          if (heroContent) heroContent.classList.add('loaded');
-        }, 600);
-        
-      }, 100);
-      
     }, 500);
-  }, 3000); // mostra per almeno 3s
-});
+  }
+}, 5000); // Fallback dopo 5 secondi massimo
 
 // ==== COOKIE CONSENT SYSTEM ====
 class CookieManager {
@@ -194,6 +213,12 @@ class CookieManager {
     const modal = document.getElementById('cookieModal');
     const closeModalBtn = document.getElementById('closeModal');
     const saveSettingsBtn = document.getElementById('saveCookieSettings');
+    
+    // Privacy Policy elements
+    const privacyLink = document.getElementById('openPrivacyPolicy');
+    const privacyModal = document.getElementById('privacyModal');
+    const closePrivacyBtn = document.getElementById('closePrivacyModal');
+    const closePrivacyFooterBtn = document.getElementById('closePrivacyFromFooter');
 
     if (acceptBtn) {
       acceptBtn.addEventListener('click', () => this.acceptAllCookies());
@@ -215,6 +240,22 @@ class CookieManager {
       saveSettingsBtn.addEventListener('click', () => this.saveCustomSettings());
     }
     
+    // Privacy Policy events
+    if (privacyLink) {
+      privacyLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.showPrivacyModal();
+      });
+    }
+    
+    if (closePrivacyBtn) {
+      closePrivacyBtn.addEventListener('click', () => this.hidePrivacyModal());
+    }
+    
+    if (closePrivacyFooterBtn) {
+      closePrivacyFooterBtn.addEventListener('click', () => this.hidePrivacyModal());
+    }
+    
     // Chiudi modal cliccando fuori
     if (modal) {
       modal.addEventListener('click', (e) => {
@@ -223,15 +264,24 @@ class CookieManager {
         }
       });
     }
+    
+    if (privacyModal) {
+      privacyModal.addEventListener('click', (e) => {
+        if (e.target === privacyModal) {
+          this.hidePrivacyModal();
+        }
+      });
+    }
   }
 
   showCookieBanner() {
     const banner = document.getElementById('cookieBanner');
     if (banner) {
-      // Mostra il banner dopo un breve delay per permettere il caricamento della pagina
+      // Aspetta che l'utente veda il brand "ELEVATE YOUR SOUND" per qualche secondo
+      // Prima aspetta che finisca il loading (1.5s) + tempo per apprezzare il brand (4s) = 5.5s totali
       setTimeout(() => {
         banner.classList.add('show');
-      }, 2000);
+      }, 5500);
     }
   }
 
@@ -242,6 +292,22 @@ class CookieManager {
       setTimeout(() => {
         banner.style.display = 'none';
       }, 600);
+    }
+  }
+
+  showPrivacyModal() {
+    const modal = document.getElementById('privacyModal');
+    if (modal) {
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  hidePrivacyModal() {
+    const modal = document.getElementById('privacyModal');
+    if (modal) {
+      modal.classList.remove('show');
+      document.body.style.overflow = '';
     }
   }
 
@@ -266,14 +332,17 @@ class CookieManager {
       essential: true,
       performance: true,
       marketing: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      ipHash: 'stored_separately',
+      method: 'accept_all'
     };
+    
+    this.logConsentForCompliance(consent);
     
     this.setCookieConsent(consent);
     this.hideCookieBanner();
     this.enableCookies(consent);
-    
-    console.log('🍪 Tutti i cookie accettati');
   }
 
   declineAllCookies() {
@@ -281,14 +350,17 @@ class CookieManager {
       essential: true, // Sempre vero, necessari per il funzionamento
       performance: false,
       marketing: false,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      ipHash: 'stored_separately',
+      method: 'decline_all'
     };
+    
+    this.logConsentForCompliance(consent);
     
     this.setCookieConsent(consent);
     this.hideCookieBanner();
     this.enableCookies(consent);
-    
-    console.log('🍪 Cookie non essenziali rifiutati');
   }
 
   saveCustomSettings() {
@@ -299,15 +371,18 @@ class CookieManager {
       essential: true,
       performance: performanceCheckbox ? performanceCheckbox.checked : false,
       marketing: marketingCheckbox ? marketingCheckbox.checked : false,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      ipHash: 'stored_separately', // Per GDPR, l'IP deve essere hashato
+      method: 'custom_settings'
     };
+    
+    this.logConsentForCompliance(consent);
     
     this.setCookieConsent(consent);
     this.hideCookieModal();
     this.hideCookieBanner();
     this.enableCookies(consent);
-    
-    console.log('🍪 Impostazioni cookie personalizzate salvate:', consent);
   }
 
   setCookieConsent(consent) {
@@ -337,16 +412,66 @@ class CookieManager {
     
     if (consent.performance) {
       // Attiva Google Analytics, etc.
-      console.log('🍪 Cookie di performance attivati');
     }
     
     if (consent.marketing) {
       // Attiva pixel di marketing, etc.
-      console.log('🍪 Cookie di marketing attivati');
     }
     
     // I cookie essenziali sono sempre attivi
-    console.log('🍪 Cookie essenziali sempre attivi');
+  }
+
+  // METODO OBBLIGATORIO PER GDPR - Logging del consenso
+  logConsentForCompliance(consent) {
+    // In produzione, questo dovrebbe inviare i dati a un server sicuro
+    const consentLog = {
+      ...consent,
+      url: window.location.href,
+      referrer: document.referrer,
+      sessionId: this.generateSessionId()
+    };
+    
+    // Salva nel localStorage per compliance (in produzione usa un server)
+    const existingLogs = JSON.parse(localStorage.getItem('consent_logs') || '[]');
+    existingLogs.push(consentLog);
+    
+    // Mantieni solo gli ultimi 100 log per evitare problemi di spazio
+    if (existingLogs.length > 100) {
+      existingLogs.shift();
+    }
+    
+    localStorage.setItem('consent_logs', JSON.stringify(existingLogs));
+    
+    // TODO: In produzione, invia al server
+    // fetch('/api/consent-log', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(consentLog)
+    // });
+  }
+
+  generateSessionId() {
+    return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  // Metodo per ottenere tutti i log del consenso (per audit GDPR)
+  getConsentLogs() {
+    return JSON.parse(localStorage.getItem('consent_logs') || '[]');
+  }
+
+  // Metodo per cancellare tutti i dati (diritto all'oblio GDPR)
+  deleteAllUserData() {
+    // Rimuovi tutti i cookie
+    document.cookie.split(";").forEach(function(c) { 
+      document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+    });
+    
+    // Rimuovi dati locali
+    localStorage.removeItem('consent_logs');
+    localStorage.removeItem(this.cookieName);
+    
+    // Ricarica la pagina per mostrare di nuovo il banner
+    window.location.reload();
   }
 }
 
