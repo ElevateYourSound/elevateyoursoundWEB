@@ -186,19 +186,47 @@ document.addEventListener('DOMContentLoaded', () => {
     let isMuted = true;
     let originalVolume = 1;
     
-    // Gestisci autoplay policy dei browser
+    // Funzione per detectare se è mobile
+    const isMobile = () => {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    };
+    
+    // Gestisci autoplay policy dei browser e mobile
     heroVideo.addEventListener('loadeddata', () => {
-      // Prova a fare autoplay con audio
+      // Forza attributi per mobile
+      if (isMobile()) {
+        heroVideo.setAttribute('playsinline', '');
+        heroVideo.setAttribute('webkit-playsinline', '');
+        heroVideo.muted = true;
+      }
+      
+      // Prova a fare autoplay
       const playPromise = heroVideo.play();
       
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          // Se l'autoplay con audio fallisce, forza muto e riprova
+          // Se l'autoplay fallisce, forza muto e riprova
           heroVideo.muted = true;
-          heroVideo.play();
+          heroVideo.play().catch(() => {
+            console.log("Autoplay non riuscito anche con mute");
+          });
         });
       }
     });
+
+    // Gestione speciale per mobile - forza inline play
+    if (isMobile()) {
+      heroVideo.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (heroVideo.paused) {
+          heroVideo.play();
+        } else {
+          heroVideo.pause();
+        }
+      });
+    }
 
     // Aggiungi fade out dell'audio alla fine del video
     heroVideo.addEventListener('timeupdate', () => {
@@ -217,7 +245,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
     
-    audioControl.addEventListener('click', () => {
+    audioControl.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
       if (isMuted) {
         // Attiva audio
         heroVideo.muted = false;
@@ -226,6 +257,11 @@ document.addEventListener('DOMContentLoaded', () => {
         audioControl.classList.add('unmuted');
         audioControl.title = 'Disattiva Audio';
         isMuted = false;
+        
+        // Assicurati che il video continui a essere riprodotto inline su mobile
+        if (isMobile() && heroVideo.paused) {
+          heroVideo.play();
+        }
         
         // Aggiungi piccola animazione di feedback
         audioControl.style.transform = 'scale(1.2)';
