@@ -118,11 +118,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+// Function to scroll to a specific section (for buttons)
+function scrollToSection(sectionId) {
+  if (sectionId === 'home') {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  } else {
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      const offsetTop = targetSection.offsetTop - 80; // Account for navbar height
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+    }
+  }
+}
+
 // Loading screen
 window.addEventListener('load', () => {
   const loadingScreen = document.getElementById('loadingScreen');
   setTimeout(() => {
     loadingScreen.style.opacity = '0';
-    setTimeout(() => loadingScreen.style.display = 'none', 500);
+    setTimeout(() => {
+      loadingScreen.style.display = 'none';
+      
+      // Trigger hero animations after loading screen disappears
+      setTimeout(() => {
+        const heroLogo = document.querySelector('.hero-logo');
+        const heroVideoContainer = document.querySelector('.hero-video-container');
+        const heroContent = document.querySelector('.hero-content');
+        
+        if (heroLogo) heroLogo.classList.add('loaded');
+        
+        setTimeout(() => {
+          if (heroVideoContainer) heroVideoContainer.classList.add('loaded');
+        }, 200);
+        
+        setTimeout(() => {
+          if (heroContent) heroContent.classList.add('loaded');
+        }, 600);
+        
+      }, 100);
+      
+    }, 500);
   }, 3000); // mostra per almeno 3s
 });
