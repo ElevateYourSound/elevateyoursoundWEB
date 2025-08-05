@@ -175,6 +175,96 @@ window.addEventListener('load', () => {
   }
 });
 
+// ==== AUDIO CONTROL FOR HERO VIDEO ====
+document.addEventListener('DOMContentLoaded', () => {
+  const audioControl = document.getElementById('audioControl');
+  const audioIcon = document.getElementById('audioIcon');
+  const heroVideo = document.getElementById('heroVideo');
+  
+  if (audioControl && audioIcon && heroVideo) {
+    // Stato iniziale: muto
+    let isMuted = true;
+    let originalVolume = 1;
+    
+    // Gestisci autoplay policy dei browser
+    heroVideo.addEventListener('loadeddata', () => {
+      // Prova a fare autoplay con audio
+      const playPromise = heroVideo.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Se l'autoplay con audio fallisce, forza muto e riprova
+          heroVideo.muted = true;
+          heroVideo.play();
+        });
+      }
+    });
+
+    // Aggiungi fade out dell'audio alla fine del video
+    heroVideo.addEventListener('timeupdate', () => {
+      if (heroVideo.duration && !isMuted) {
+        const timeLeft = heroVideo.duration - heroVideo.currentTime;
+        const fadeOutDuration = 2; // 2 secondi di fade out
+        
+        if (timeLeft <= fadeOutDuration && timeLeft > 0) {
+          // Calcola il volume in base al tempo rimanente
+          const fadeVolume = timeLeft / fadeOutDuration;
+          heroVideo.volume = fadeVolume * originalVolume;
+        } else {
+          // Mantieni il volume originale
+          heroVideo.volume = originalVolume;
+        }
+      }
+    });
+    
+    audioControl.addEventListener('click', () => {
+      if (isMuted) {
+        // Attiva audio
+        heroVideo.muted = false;
+        heroVideo.volume = originalVolume;
+        audioIcon.className = 'fas fa-volume-up';
+        audioControl.classList.add('unmuted');
+        audioControl.title = 'Disattiva Audio';
+        isMuted = false;
+        
+        // Aggiungi piccola animazione di feedback
+        audioControl.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+          audioControl.style.transform = '';
+        }, 150);
+        
+      } else {
+        // Disattiva audio
+        heroVideo.muted = true;
+        audioIcon.className = 'fas fa-volume-mute';
+        audioControl.classList.remove('unmuted');
+        audioControl.title = 'Attiva Audio';
+        isMuted = true;
+        
+        // Aggiungi piccola animazione di feedback
+        audioControl.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+          audioControl.style.transform = '';
+        }, 150);
+      }
+    });
+    
+    // Gestisci il volume del video
+    heroVideo.volume = 0.6; // Volume al 60% quando attivato per non essere troppo forte
+    
+    // Mostra il pulsante solo dopo che il video è caricato
+    heroVideo.addEventListener('canplay', () => {
+      audioControl.style.opacity = '1';
+      audioControl.style.pointerEvents = 'auto';
+    });
+    
+    // Nascondi inizialmente il pulsante
+    audioControl.style.opacity = '0';
+    audioControl.style.pointerEvents = 'none';
+    audioControl.style.transition = 'opacity 0.3s ease';
+  }
+});
+
 // Fallback per assicurarsi che il loading si nasconda sempre
 setTimeout(() => {
   const loadingScreen = document.getElementById('loadingScreen');
